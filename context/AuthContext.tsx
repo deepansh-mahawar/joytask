@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 
 interface User {
   email: string;
@@ -24,12 +24,10 @@ export default function AuthProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
+  const [user, setUser] = useState<User | null>(() => {
     const savedUser = localStorage.getItem("ecom_user");
-    if (savedUser) setUser(JSON.parse(savedUser));
-  }, []);
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
   const login = (data: User, remember: boolean) => {
     setUser(data);
